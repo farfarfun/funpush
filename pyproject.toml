@@ -1,0 +1,30 @@
+[project]
+name = "funpush"
+version = "1.0.2"
+description = "funpush"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = []
+[[project.authors]]
+name = "牛哥"
+email = "niuliangtao@qq.com"
+
+[[project.authors]]
+name = "farfarfun"
+email = "farfarfun@qq.com"
+
+[[project.maintainers]]
+name = "牛哥"
+email = "niuliangtao@qq.com"
+
+[[project.maintainers]]
+name = "farfarfun"
+email = "farfarfun@qq.com"
+
+[project.urls]
+Organization = "https://github.com/farfarfun"
+Repository = "https://github.com/farfarfun/funpush"
+Releases = "https://github.com/farfarfun/funpush/releases"
+
+[tool.setuptools]
+license-files = []

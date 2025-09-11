@@ -1,10 +1,10 @@
 [project]
 name = "funpush"
-version = "1.0.3"
+version = "1.0.4"
 description = "funpush"
 readme = "README.md"
 requires-python = ">=3.9"
-dependencies = []
+dependencies = [ "funutil>=1.0.53",]
 [[project.authors]]
 name = "牛哥"
 email = "niuliangtao@qq.com"

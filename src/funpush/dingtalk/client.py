@@ -144,7 +144,7 @@ class DingTalkClient(BaseClient):
                 logger.error(f"钉钉 API 错误: {error_msg}")
                 return False
 
-            logger.info("消息发送成功")
+            logger.success("消息发送成功")
 
             # 速率限制
             if self.send_delay > 0:

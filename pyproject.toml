@@ -1,6 +1,6 @@
 [project]
 name = "funpush"
-version = "1.0.5"
+version = "1.0.6"
 description = "funpush"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -28,6 +28,10 @@ email = "farfarfun@qq.com"
 Organization = "https://github.com/farfarfun"
 Repository = "https://github.com/farfarfun/funpush"
 Releases = "https://github.com/farfarfun/funpush/releases"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.setuptools]
 license-files = []

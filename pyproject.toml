@@ -3,7 +3,7 @@ name = "funpush"
 version = "1.0.6"
 description = "funpush"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [ "funutil>=1.0.53", "requests>=2.28",]
 
 [dependency-groups]

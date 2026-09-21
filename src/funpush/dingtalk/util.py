@@ -1,4 +1,3 @@
-# python 3.8
 import base64
 import hashlib
 import hmac
@@ -8,12 +7,14 @@ import urllib.parse
 from urllib.parse import quote
 
 
-def dingtalk_url_decode(url, pc_slide=True):
+def dingtalk_url_decode(url: str, pc_slide: bool = True) -> str:
+    """将普通 URL 转换为钉钉客户端链接。"""
     url = quote(url, "utf-8")
     return f"dingtalk://dingtalkclient/page/link?url={url}&pc_slide={pc_slide}"
 
 
-def get_sign(secret="this is secret"):
+def get_sign(secret: str) -> tuple[str, str]:
+    """根据钉钉机器人密钥生成时间戳和签名。"""
     timestamp = str(round(time.time() * 1000))
     secret_enc = secret.encode("utf-8")
     string_to_sign = "{}\n{}".format(timestamp, secret)

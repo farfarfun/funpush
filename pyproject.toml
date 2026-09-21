@@ -1,13 +1,14 @@
 [project]
 name = "funpush"
 version = "1.0.6"
-description = "funpush"
+description = "消息推送工具库"
+license = "MIT"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = [ "funutil>=1.0.53", "requests>=2.28",]
+dependencies = [ "farlog>=1.1.8", "requests>=2.28",]
 
 [dependency-groups]
-dev = [ "pytest",]
+dev = [ "pytest>=8",]
 [[project.authors]]
 name = "牛哥"
 email = "niuliangtao@qq.com"
@@ -35,3 +36,6 @@ build-backend = "hatchling.build"
 
 [tool.setuptools]
 license-files = []
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/funpush"]

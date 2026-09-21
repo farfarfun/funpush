@@ -2,6 +2,7 @@
 from unittest.mock import MagicMock, patch
 
 import pytest
+import requests
 
 import funpush
 from funpush import DingTalkClient
@@ -116,10 +117,70 @@ def test_client_login_with_access_object():
     assert client.secret == "sec"
 
 
+def test_client_login_from_environment(monkeypatch):
+    monkeypatch.setenv("DINGTALK_ACCESS_TOKEN", "env-token")
+    monkeypatch.setenv("DINGTALK_SECRET", "env-secret")
+
+    client = DingTalkClient()
+    client.login()
+
+    assert client.access_token == "env-token"
+    assert client.secret == "env-secret"
+
+
 def test_client_send_requires_login():
     client = DingTalkClient()
     with pytest.raises(ValueError):
         client.send(DingTalkTextMessage("hi"))
+
+
+@pytest.mark.parametrize(
+    "method, args, kwargs",
+    [
+        ("send_link", ("标题", "内容", "https://example.com"), {}),
+        ("send_markdown", ("标题", "内容"), {}),
+        ("send_action_card", ("标题", "内容", "按钮", "https://example.com"), {}),
+        (
+            "send_action_cards",
+            ("标题", "内容", [{"title": "按钮", "actionURL": "https://example.com"}]),
+            {},
+        ),
+        (
+            "send_feed_card",
+            ([{"title": "标题", "messageURL": "https://example.com", "picURL": "https://pic"}],),
+            {},
+        ),
+        (
+            "send_feed_card_simple",
+            (["标题"], ["https://example.com"], ["https://pic"]),
+            {},
+        ),
+    ],
+)
+def test_public_send_methods_delegate_to_send(method, args, kwargs):
+    client = DingTalkClient()
+    client.send = MagicMock(return_value=True)
+
+    assert getattr(client, method)(*args, **kwargs) is True
+    client.send.assert_called_once()
+
+
+@patch("funpush.dingtalk.client.requests.post", side_effect=requests.RequestException("network"))
+def test_client_send_reraises_request_errors(mock_post):
+    client = DingTalkClient(send_delay=0)
+    client.login(access_token="tok", secret="sec")
+
+    with pytest.raises(requests.RequestException, match="network"):
+        client.send_text("网络错误")
+
+
+@patch("funpush.dingtalk.client.requests.post", side_effect=RuntimeError("unexpected"))
+def test_client_send_reraises_unexpected_errors(mock_post):
+    client = DingTalkClient(send_delay=0)
+    client.login(access_token="tok", secret="sec")
+
+    with pytest.raises(RuntimeError, match="unexpected"):
+        client.send_text("未知错误")
 
 
 @patch("funpush.dingtalk.client.requests.post")
@@ -151,6 +212,19 @@ def test_client_send_dedup_mocked(mock_post):
     # 相同内容第二次发送应被去重拦截，不再调用底层 API
     assert client.send(message) is False
     assert mock_post.call_count == 1
+
+
+@patch("funpush.dingtalk.client.requests.post")
+def test_client_send_returns_false_for_api_error(mock_post):
+    mock_response = MagicMock()
+    mock_response.json.return_value = {"errcode": 400, "errmsg": "invalid"}
+    mock_response.raise_for_status.return_value = None
+    mock_post.return_value = mock_response
+
+    client = DingTalkClient(send_delay=0)
+    client.login(access_token="tok", secret="sec")
+
+    assert client.send_text("API 错误") is False
 
 
 def test_wechat_module_is_empty_stub():

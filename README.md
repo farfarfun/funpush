@@ -42,15 +42,13 @@ from funpush import DingTalkClient
 # 初始化客户端
 client = DingTalkClient()
 
-# 配置钉钉机器人访问信息
-access = {
-    "access_token": "your_access_token_here",
-    "secret": "your_secret_here"  # 可选，如果启用了加签验证
-}
+# 配置凭据（不要把真实凭据提交到代码仓库）
+# export DINGTALK_ACCESS_TOKEN="your_access_token_here"
+# export DINGTALK_SECRET="your_secret_here"
+client.login()
 
 # 发送文本消息
 client.send_text(
-    access=access,
     content="Hello, World! 这是一条测试消息。",
     at_all=False
 )
@@ -63,13 +61,11 @@ client.send_text(
 ```python
 # 发送普通文本消息
 client.send_text(
-    access=access,
     content="这是一条普通的文本消息"
 )
 
 # 发送带@功能的文本消息
 client.send_text(
-    access=access,
     content="重要通知：请相关人员注意！",
     mobiles=["13800138000"],  # @指定手机号
     user_ids=["user123"],     # @指定用户ID
@@ -81,7 +77,6 @@ client.send_text(
 
 ```python
 client.send_link(
-    access=access,
     title="重要公告",
     text="点击查看详细内容",
     message_url="https://example.com/announcement",
@@ -108,7 +103,6 @@ markdown_text = """
 """
 
 client.send_markdown(
-    access=access,
     title="项目进度报告",
     text=markdown_text,
     mobiles=["13800138000"]
@@ -121,7 +115,6 @@ client.send_markdown(
 
 ```python
 client.send_action_card(
-    access=access,
     title="系统升级通知",
     text="系统将于今晚22:00-24:00进行升级维护，请提前做好准备。",
     single_title="查看详情",
@@ -139,7 +132,6 @@ buttons = [
 ]
 
 client.send_action_cards(
-    access=access,
     title="请假申请审批",
     text="张三申请请假3天，请审批。",
     buttons=buttons
@@ -163,7 +155,7 @@ links = [
     }
 ]
 
-client.send_feed_card(access=access, links=links)
+client.send_feed_card(links=links)
 
 # 方式二：使用简化方法
 titles = ["新闻1：技术突破", "新闻2：市场动态"]
@@ -171,7 +163,6 @@ urls = ["https://example.com/news1", "https://example.com/news2"]
 pics = ["https://example.com/pic1.jpg", "https://example.com/pic2.jpg"]
 
 client.send_feed_card_simple(
-    access=access,
     titles=titles,
     urls=urls,
     pics=pics
@@ -195,7 +186,6 @@ client = DingTalkClient(
 ```python
 try:
     success = client.send_text(
-        access=access,
         content="测试消息"
     )
     if success:
@@ -265,3 +255,16 @@ funpush/
 ---
 
 如果这个项目对你有帮助，请给我们一个 ⭐️！
+
+---
+
+## 关于 farfarfun
+
+[farfarfun](https://github.com/farfarfun) 是一个专注于实用工具库的开源组织，
+涵盖云存储、数据处理、AI、多媒体与开发工具链等方向。
+
+- 组织主页：<https://github.com/farfarfun>
+- PyPI：<https://pypi.org/user/niuliangtao/>
+- 联系：farfarfun@qq.com
+
+本项目基于 [MIT](LICENSE) 协议开源。

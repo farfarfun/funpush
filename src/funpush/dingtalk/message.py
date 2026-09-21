@@ -11,7 +11,6 @@
 参考文档：https://open.dingtalk.com/document/robots/custom-robot-access
 """
 
-from typing import List, Optional, Dict, Any
 from urllib.parse import quote
 
 from funpush.base.message import BaseMessage
@@ -25,8 +24,8 @@ class DingTalkBaseMessage(BaseMessage):
 
     def __init__(
         self,
-        mobiles: Optional[List[str]] = None,
-        user_ids: Optional[List[str]] = None,
+        mobiles: list[str] | None = None,
+        user_ids: list[str] | None = None,
         at_all: bool = False,
         *args,
         **kwargs,
@@ -63,7 +62,7 @@ class DingTalkBaseMessage(BaseMessage):
         if not isinstance(self.at_all, bool):
             raise ValueError("at_all 必须是布尔值")
 
-    def build_at(self) -> Dict[str, Any]:
+    def build_at(self) -> dict[str, object]:
         """构建@信息
 
         Returns:
@@ -101,7 +100,7 @@ class DingTalkTextMessage(DingTalkBaseMessage):
 
         self.content = content.strip()
 
-    def build(self, *args, **kwargs) -> Dict[str, Any]:
+    def build(self, *args, **kwargs) -> dict[str, object]:
         """构建文本消息
 
         Returns:
@@ -125,7 +124,7 @@ class DingTalkLinkMessage(DingTalkBaseMessage):
         title: str,
         text: str,
         message_url: str,
-        pic_url: Optional[str] = None,
+        pic_url: str | None = None,
         *args,
         **kwargs,
     ) -> None:
@@ -157,7 +156,7 @@ class DingTalkLinkMessage(DingTalkBaseMessage):
         self.message_url = message_url.strip()
         self.pic_url = pic_url.strip() if pic_url else ""
 
-    def build(self, *args, **kwargs) -> Dict[str, Any]:
+    def build(self, *args, **kwargs) -> dict[str, object]:
         """构建链接消息
 
         Returns:
@@ -203,7 +202,7 @@ class DingTalkMarkdownMessage(DingTalkBaseMessage):
         self.title = title.strip()
         self.text = text.strip()
 
-    def build(self, *args, **kwargs) -> Dict[str, Any]:
+    def build(self, *args, **kwargs) -> dict[str, object]:
         """构建Markdown消息
 
         Returns:
@@ -226,9 +225,9 @@ class DingTalkActionCardMessage(DingTalkBaseMessage):
         self,
         title: str,
         text: str,
-        single_title: Optional[str] = None,
-        single_url: Optional[str] = None,
-        buttons: Optional[List[Dict[str, str]]] = None,
+        single_title: str | None = None,
+        single_url: str | None = None,
+        buttons: list[dict[str, str]] | None = None,
         btn_orientation: int = 0,
         *args,
         **kwargs,
@@ -285,7 +284,7 @@ class DingTalkActionCardMessage(DingTalkBaseMessage):
         self.buttons = buttons
         self.btn_orientation = btn_orientation
 
-    def build(self, *args, **kwargs) -> Dict[str, Any]:
+    def build(self, *args, **kwargs) -> dict[str, object]:
         """构建ActionCard消息
 
         Returns:
@@ -317,7 +316,7 @@ class DingTalkFeedCardMessage(DingTalkBaseMessage):
     用于发送多条信息的卡片消息，每条信息包含标题、链接和图片。
     """
 
-    def __init__(self, links: List[Dict[str, str]], *args, **kwargs) -> None:
+    def __init__(self, links: list[dict[str, str]], *args, **kwargs) -> None:
         """
         初始化FeedCard消息
 
@@ -344,7 +343,7 @@ class DingTalkFeedCardMessage(DingTalkBaseMessage):
 
         self.links = links
 
-    def build(self, *args, **kwargs) -> Dict[str, Any]:
+    def build(self, *args, **kwargs) -> dict[str, object]:
         """构建FeedCard消息
 
         Returns:
@@ -355,10 +354,10 @@ class DingTalkFeedCardMessage(DingTalkBaseMessage):
 
 def msg_text(
     content: str,
-    mobiles: Optional[List[str]] = None,
-    user_ids: Optional[List[str]] = None,
+    mobiles: list[str] | None = None,
+    user_ids: list[str] | None = None,
     at_all: bool = False,
-) -> Dict[str, Any]:
+) -> dict[str, object]:
     """创建文本消息
 
     Args:
@@ -376,8 +375,8 @@ def msg_text(
 
 
 def msg_link(
-    title: str, text: str, message_url: str, pic_url: Optional[str] = None
-) -> Dict[str, Any]:
+    title: str, text: str, message_url: str, pic_url: str | None = None
+) -> dict[str, object]:
     """创建链接消息
 
     Args:
@@ -395,10 +394,10 @@ def msg_link(
 def msg_markdown(
     title: str,
     text: str,
-    mobiles: Optional[List[str]] = None,
-    user_ids: Optional[List[str]] = None,
+    mobiles: list[str] | None = None,
+    user_ids: list[str] | None = None,
     at_all: bool = False,
-) -> Dict[str, Any]:
+) -> dict[str, object]:
     """创建Markdown消息
 
     Args:
@@ -418,7 +417,7 @@ def msg_markdown(
 
 def msg_action_card(
     title: str, text: str, single_title: str, single_url: str, btn_orientation: int = 0
-) -> Dict[str, Any]:
+) -> dict[str, object]:
     """创建单按钮ActionCard消息
 
     Args:
@@ -441,8 +440,8 @@ def msg_action_card(
 
 
 def msg_action_cards(
-    title: str, text: str, titles: List[str], urls: List[str], btn_orientation: int = 0
-) -> Dict[str, Any]:
+    title: str, text: str, titles: list[str], urls: list[str], btn_orientation: int = 0
+) -> dict[str, object]:
     """创建多按钮ActionCard消息
 
     Args:
@@ -478,8 +477,8 @@ def msg_action_cards(
 
 
 def msg_feed_card(
-    titles: List[str], urls: List[str], pics: List[str]
-) -> Dict[str, Any]:
+    titles: list[str], urls: list[str], pics: list[str]
+) -> dict[str, object]:
     """创建FeedCard消息
 
     Args:

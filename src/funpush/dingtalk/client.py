@@ -1,11 +1,11 @@
 import hashlib
 import json
+import os
 import time
 from collections import deque
-from typing import Optional, Dict, Any, List
 
 import requests
-from funutil import getLogger
+from farlog import getLogger
 from funpush.base.client import BaseClient
 
 from .model import DingTalkAccess
@@ -50,17 +50,17 @@ class DingTalkClient(BaseClient):
             send_delay: 消息发送间隔延迟（秒）
         """
         super().__init__()
-        self.secret: Optional[str] = None
-        self.access_token: Optional[str] = None
+        self.secret: str | None = None
+        self.access_token: str | None = None
         self.max_cache_size = max_cache_size
         self.send_delay = send_delay
         self._message_cache: deque = deque(maxlen=max_cache_size)
 
     def login(
         self,
-        access_token: Optional[str] = None,
-        secret: Optional[str] = None,
-        access: Optional[DingTalkAccess] = None,
+        access_token: str | None = None,
+        secret: str | None = None,
+        access: DingTalkAccess | None = None,
         *args,
         **kwargs,
     ) -> None:
@@ -78,8 +78,8 @@ class DingTalkClient(BaseClient):
             self.secret = access.secret
             self.access_token = access.access_token
         else:
-            self.secret = secret
-            self.access_token = access_token
+            self.secret = secret or os.getenv("DINGTALK_SECRET")
+            self.access_token = access_token or os.getenv("DINGTALK_ACCESS_TOKEN")
 
         if not self.access_token:
             raise ValueError("钉钉客户端需要访问令牌")
@@ -155,11 +155,11 @@ class DingTalkClient(BaseClient):
         except requests.RequestException as e:
             logger.error(f"发送消息失败: {e}")
             raise
-        except Exception as e:
-            logger.error(f"发送消息时发生意外错误: {e}")
-            return False
+        except (TypeError, ValueError) as e:
+            logger.error(f"发送消息参数错误: {e}")
+            raise
 
-    def _generate_message_hash(self, message_data: Dict[str, Any]) -> str:
+    def _generate_message_hash(self, message_data: dict[str, object]) -> str:
         """生成用于消息去重的哈希值。
 
         Args:
@@ -202,8 +202,8 @@ class DingTalkClient(BaseClient):
     def send_text(
         self,
         content: str,
-        mobiles: Optional[List[str]] = None,
-        user_ids: Optional[List[str]] = None,
+        mobiles: list[str] | None = None,
+        user_ids: list[str] | None = None,
         at_all: bool = False,
     ) -> bool:
         """发送文本消息
@@ -230,7 +230,7 @@ class DingTalkClient(BaseClient):
         title: str,
         text: str,
         message_url: str,
-        pic_url: Optional[str] = None,
+        pic_url: str | None = None,
     ) -> bool:
         """发送链接消息
 
@@ -255,8 +255,8 @@ class DingTalkClient(BaseClient):
         self,
         title: str,
         text: str,
-        mobiles: Optional[List[str]] = None,
-        user_ids: Optional[List[str]] = None,
+        mobiles: list[str] | None = None,
+        user_ids: list[str] | None = None,
         at_all: bool = False,
     ) -> bool:
         """发送Markdown消息
@@ -313,7 +313,7 @@ class DingTalkClient(BaseClient):
         self,
         title: str,
         text: str,
-        buttons: List[Dict[str, str]],
+        buttons: list[dict[str, str]],
         btn_orientation: int = 0,
     ) -> bool:
         """发送多按钮ActionCard消息
@@ -337,7 +337,7 @@ class DingTalkClient(BaseClient):
 
     def send_feed_card(
         self,
-        links: List[Dict[str, str]],
+        links: list[dict[str, str]],
     ) -> bool:
         """发送FeedCard消息
 
@@ -352,9 +352,9 @@ class DingTalkClient(BaseClient):
 
     def send_feed_card_simple(
         self,
-        titles: List[str],
-        urls: List[str],
-        pics: List[str],
+        titles: list[str],
+        urls: list[str],
+        pics: list[str],
     ) -> bool:
         """发送FeedCard消息（简化版本）
 

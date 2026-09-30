@@ -265,11 +265,7 @@ class DingTalkActionCardMessage(DingTalkBaseMessage):
             if not isinstance(buttons, list) or not buttons:
                 raise ValueError("buttons必须是非空列表")
             for btn in buttons:
-                if (
-                    not isinstance(btn, dict)
-                    or "title" not in btn
-                    or "actionURL" not in btn
-                ):
+                if not isinstance(btn, dict) or "title" not in btn or "actionURL" not in btn:
                     raise ValueError("每个按钮必须包含title和actionURL字段")
         else:
             raise ValueError("必须设置单个按钮或多个按钮")
@@ -369,9 +365,7 @@ def msg_text(
     Returns:
         符合钉钉API格式的消息字典
     """
-    return DingTalkTextMessage(
-        content, mobiles=mobiles, user_ids=user_ids, at_all=at_all
-    ).build()
+    return DingTalkTextMessage(content, mobiles=mobiles, user_ids=user_ids, at_all=at_all).build()
 
 
 def msg_link(
@@ -476,9 +470,7 @@ def msg_action_cards(
     ).build()
 
 
-def msg_feed_card(
-    titles: list[str], urls: list[str], pics: list[str]
-) -> dict[str, object]:
+def msg_feed_card(titles: list[str], urls: list[str], pics: list[str]) -> dict[str, object]:
     """创建FeedCard消息
 
     Args:

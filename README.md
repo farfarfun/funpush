@@ -48,10 +48,7 @@ client = DingTalkClient()
 client.login()
 
 # 发送文本消息
-client.send_text(
-    content="Hello, World! 这是一条测试消息。",
-    at_all=False
-)
+client.send_text(content="Hello, World! 这是一条测试消息。", at_all=False)
 ```
 
 ## 📖 详细使用说明
@@ -60,16 +57,14 @@ client.send_text(
 
 ```python
 # 发送普通文本消息
-client.send_text(
-    content="这是一条普通的文本消息"
-)
+client.send_text(content="这是一条普通的文本消息")
 
 # 发送带@功能的文本消息
 client.send_text(
     content="重要通知：请相关人员注意！",
     mobiles=["13800138000"],  # @指定手机号
-    user_ids=["user123"],     # @指定用户ID
-    at_all=False              # 是否@所有人
+    user_ids=["user123"],  # @指定用户ID
+    at_all=False,  # 是否@所有人
 )
 ```
 
@@ -80,7 +75,7 @@ client.send_link(
     title="重要公告",
     text="点击查看详细内容",
     message_url="https://example.com/announcement",
-    pic_url="https://example.com/image.jpg"
+    pic_url="https://example.com/image.jpg",
 )
 ```
 
@@ -102,11 +97,7 @@ markdown_text = """
 **负责人：** @张三
 """
 
-client.send_markdown(
-    title="项目进度报告",
-    text=markdown_text,
-    mobiles=["13800138000"]
-)
+client.send_markdown(title="项目进度报告", text=markdown_text, mobiles=["13800138000"])
 ```
 
 ### 4. ActionCard 消息
@@ -118,7 +109,7 @@ client.send_action_card(
     title="系统升级通知",
     text="系统将于今晚22:00-24:00进行升级维护，请提前做好准备。",
     single_title="查看详情",
-    single_url="https://example.com/upgrade-notice"
+    single_url="https://example.com/upgrade-notice",
 )
 ```
 
@@ -128,14 +119,10 @@ client.send_action_card(
 buttons = [
     {"title": "同意", "actionURL": "https://example.com/approve"},
     {"title": "拒绝", "actionURL": "https://example.com/reject"},
-    {"title": "查看详情", "actionURL": "https://example.com/details"}
+    {"title": "查看详情", "actionURL": "https://example.com/details"},
 ]
 
-client.send_action_cards(
-    title="请假申请审批",
-    text="张三申请请假3天，请审批。",
-    buttons=buttons
-)
+client.send_action_cards(title="请假申请审批", text="张三申请请假3天，请审批。", buttons=buttons)
 ```
 
 ### 5. FeedCard 消息
@@ -146,13 +133,13 @@ links = [
     {
         "title": "新闻1：技术突破",
         "messageURL": "https://example.com/news1",
-        "picURL": "https://example.com/pic1.jpg"
+        "picURL": "https://example.com/pic1.jpg",
     },
     {
-        "title": "新闻2：市场动态", 
+        "title": "新闻2：市场动态",
         "messageURL": "https://example.com/news2",
-        "picURL": "https://example.com/pic2.jpg"
-    }
+        "picURL": "https://example.com/pic2.jpg",
+    },
 ]
 
 client.send_feed_card(links=links)
@@ -162,11 +149,7 @@ titles = ["新闻1：技术突破", "新闻2：市场动态"]
 urls = ["https://example.com/news1", "https://example.com/news2"]
 pics = ["https://example.com/pic1.jpg", "https://example.com/pic2.jpg"]
 
-client.send_feed_card_simple(
-    titles=titles,
-    urls=urls,
-    pics=pics
-)
+client.send_feed_card_simple(titles=titles, urls=urls, pics=pics)
 ```
 
 ## ⚙️ 高级配置
@@ -176,24 +159,27 @@ client.send_feed_card_simple(
 ```python
 # 自定义配置
 client = DingTalkClient(
-    max_cache_size=200,    # 消息去重缓存大小
-    send_delay=5.0         # 发送延迟（秒）
+    max_cache_size=200,  # 消息去重缓存大小
+    send_delay=5.0,  # 发送延迟（秒）
 )
 ```
 
 ### 错误处理
 
 ```python
+from requests import RequestException
+from farlog import getLogger
+
+logger = getLogger("funpush.example")
+
 try:
-    success = client.send_text(
-        content="测试消息"
-    )
+    success = client.send_text(content="测试消息")
     if success:
         print("消息发送成功")
     else:
         print("消息发送失败")
-except Exception as e:
-    print(f"发送过程中出现错误: {e}")
+except RequestException:
+    logger.error("发送过程中发生网络错误")
 ```
 
 ## 🔧 开发指南

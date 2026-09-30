@@ -6,19 +6,19 @@ from collections import deque
 
 import requests
 from farlog import getLogger
+
 from funpush.base.client import BaseClient
 
-from .model import DingTalkAccess
-from .util import get_sign
 from ..base import BaseMessage
 from .message import (
-    DingTalkTextMessage,
-    DingTalkLinkMessage,
-    DingTalkMarkdownMessage,
     DingTalkActionCardMessage,
     DingTalkFeedCardMessage,
+    DingTalkLinkMessage,
+    DingTalkMarkdownMessage,
+    DingTalkTextMessage,
 )
-
+from .model import DingTalkAccess
+from .util import get_sign
 
 logger = getLogger("funpush")
 
@@ -153,7 +153,8 @@ class DingTalkClient(BaseClient):
             return True
 
         except requests.RequestException as e:
-            logger.error(f"发送消息失败: {e}")
+            status = e.response.status_code if e.response is not None else "unknown"
+            logger.error(f"发送钉钉消息失败: status={status}, endpoint={self.API_URL}")
             raise
         except (TypeError, ValueError) as e:
             logger.error(f"发送消息参数错误: {e}")

@@ -1,4 +1,5 @@
 """轻量冒烟测试：验证导入、消息构建、客户端登录/发送流程（网络请求已 mock）。"""
+
 from unittest.mock import MagicMock, patch
 
 import pytest

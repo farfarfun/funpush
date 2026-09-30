@@ -1,6 +1,6 @@
 class BaseMessage:
-    def __init__(self, *args, **kwargs):
-        pass
+    """推送消息的最小接口。"""
 
-    def build(self):
+    def build(self) -> dict[str, object]:
+        """构造渠道 API 所需的消息字典。"""
         raise NotImplementedError()

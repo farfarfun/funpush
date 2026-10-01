@@ -27,8 +27,8 @@ class DingTalkBaseMessage(BaseMessage):
         mobiles: list[str] | None = None,
         user_ids: list[str] | None = None,
         at_all: bool = False,
-        *args,
-        **kwargs,
+        *args: object,
+        **kwargs: object,
     ) -> None:
         """
         初始化钉钉消息基类
@@ -81,7 +81,7 @@ class DingTalkTextMessage(DingTalkBaseMessage):
     用于发送纯文本消息，支持@功能。
     """
 
-    def __init__(self, content: str, *args, **kwargs) -> None:
+    def __init__(self, content: str, *args: object, **kwargs: object) -> None:
         """
         初始化文本消息
 
@@ -100,7 +100,7 @@ class DingTalkTextMessage(DingTalkBaseMessage):
 
         self.content = content.strip()
 
-    def build(self, *args, **kwargs) -> dict[str, object]:
+    def build(self, *args: object, **kwargs: object) -> dict[str, object]:
         """构建文本消息
 
         Returns:
@@ -125,8 +125,8 @@ class DingTalkLinkMessage(DingTalkBaseMessage):
         text: str,
         message_url: str,
         pic_url: str | None = None,
-        *args,
-        **kwargs,
+        *args: object,
+        **kwargs: object,
     ) -> None:
         """
         初始化链接消息
@@ -156,7 +156,7 @@ class DingTalkLinkMessage(DingTalkBaseMessage):
         self.message_url = message_url.strip()
         self.pic_url = pic_url.strip() if pic_url else ""
 
-    def build(self, *args, **kwargs) -> dict[str, object]:
+    def build(self, *args: object, **kwargs: object) -> dict[str, object]:
         """构建链接消息
 
         Returns:
@@ -179,7 +179,9 @@ class DingTalkMarkdownMessage(DingTalkBaseMessage):
     用于发送支持Markdown格式的富文本消息。
     """
 
-    def __init__(self, title: str, text: str, *args, **kwargs) -> None:
+    def __init__(
+        self, title: str, text: str, *args: object, **kwargs: object
+    ) -> None:
         """
         初始化Markdown消息
 
@@ -202,7 +204,7 @@ class DingTalkMarkdownMessage(DingTalkBaseMessage):
         self.title = title.strip()
         self.text = text.strip()
 
-    def build(self, *args, **kwargs) -> dict[str, object]:
+    def build(self, *args: object, **kwargs: object) -> dict[str, object]:
         """构建Markdown消息
 
         Returns:
@@ -229,8 +231,8 @@ class DingTalkActionCardMessage(DingTalkBaseMessage):
         single_url: str | None = None,
         buttons: list[dict[str, str]] | None = None,
         btn_orientation: int = 0,
-        *args,
-        **kwargs,
+        *args: object,
+        **kwargs: object,
     ) -> None:
         """
         初始化ActionCard消息
@@ -280,7 +282,7 @@ class DingTalkActionCardMessage(DingTalkBaseMessage):
         self.buttons = buttons
         self.btn_orientation = btn_orientation
 
-    def build(self, *args, **kwargs) -> dict[str, object]:
+    def build(self, *args: object, **kwargs: object) -> dict[str, object]:
         """构建ActionCard消息
 
         Returns:
@@ -312,7 +314,9 @@ class DingTalkFeedCardMessage(DingTalkBaseMessage):
     用于发送多条信息的卡片消息，每条信息包含标题、链接和图片。
     """
 
-    def __init__(self, links: list[dict[str, str]], *args, **kwargs) -> None:
+    def __init__(
+        self, links: list[dict[str, str]], *args: object, **kwargs: object
+    ) -> None:
         """
         初始化FeedCard消息
 
@@ -339,7 +343,7 @@ class DingTalkFeedCardMessage(DingTalkBaseMessage):
 
         self.links = links
 
-    def build(self, *args, **kwargs) -> dict[str, object]:
+    def build(self, *args: object, **kwargs: object) -> dict[str, object]:
         """构建FeedCard消息
 
         Returns:

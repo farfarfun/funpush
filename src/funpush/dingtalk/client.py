@@ -42,7 +42,7 @@ class DingTalkClient(BaseClient):
         self,
         max_cache_size: int = DEFAULT_MAX_CACHE_SIZE,
         send_delay: float = DEFAULT_SEND_DELAY,
-    ):
+    ) -> None:
         """初始化钉钉客户端。
 
         Args:
@@ -61,8 +61,8 @@ class DingTalkClient(BaseClient):
         access_token: str | None = None,
         secret: str | None = None,
         access: DingTalkAccess | None = None,
-        *args,
-        **kwargs,
+        *args: object,
+        **kwargs: object,
     ) -> None:
         """配置客户端凭据。
 
@@ -86,7 +86,7 @@ class DingTalkClient(BaseClient):
         if not self.secret:
             raise ValueError("钉钉客户端需要密钥")
 
-    def send(self, message: BaseMessage, *args, **kwargs) -> bool:
+    def send(self, message: BaseMessage, *args: object, **kwargs: object) -> bool:
         """向钉钉发送消息。
 
         Args:

@@ -4,9 +4,9 @@
 [![Python](https://img.shields.io/pypi/pyversions/funpush.svg)](https://pypi.org/project/funpush/)
 [![License](https://img.shields.io/github/license/farfarfun/funpush.svg)](https://github.com/farfarfun/funpush/blob/main/LICENSE)
 
-**一个简单易用的Python消息推送库，支持钉钉、微信等多平台机器人消息发送。**
+**一个简单易用的 Python 消息推送库，目前支持钉钉机器人消息发送。**
 
-FunPush 是一个专为各种即时通讯平台设计的消息推送库。目前主要支持钉钉机器人消息推送，未来将扩展支持更多平台。
+FunPush 是一个面向即时通讯平台的消息推送库，目前支持钉钉机器人消息推送。微信企业号机器人支持正在规划中，未来将扩展更多平台。
 
 **关键词：** `消息推送` `钉钉机器人` `Python` `即时通讯` `API` `Webhook` `自动化` `通知` `机器人` `消息发送`
 

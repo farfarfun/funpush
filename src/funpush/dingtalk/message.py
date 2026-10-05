@@ -179,9 +179,7 @@ class DingTalkMarkdownMessage(DingTalkBaseMessage):
     用于发送支持Markdown格式的富文本消息。
     """
 
-    def __init__(
-        self, title: str, text: str, *args: object, **kwargs: object
-    ) -> None:
+    def __init__(self, title: str, text: str, *args: object, **kwargs: object) -> None:
         """
         初始化Markdown消息
 
@@ -314,9 +312,7 @@ class DingTalkFeedCardMessage(DingTalkBaseMessage):
     用于发送多条信息的卡片消息，每条信息包含标题、链接和图片。
     """
 
-    def __init__(
-        self, links: list[dict[str, str]], *args: object, **kwargs: object
-    ) -> None:
+    def __init__(self, links: list[dict[str, str]], *args: object, **kwargs: object) -> None:
         """
         初始化FeedCard消息
 

@@ -2,7 +2,7 @@
 
 [![PyPI version](https://badge.fury.io/py/funpush.svg)](https://badge.fury.io/py/funpush)
 [![Python](https://img.shields.io/pypi/pyversions/funpush.svg)](https://pypi.org/project/funpush/)
-[![License](https://img.shields.io/github/license/farfarfun/funpush.svg)](https://github.com/farfarfun/funpush/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/farfarfun/funpush.svg)](https://github.com/farfarfun/funpush/blob/master/LICENSE)
 
 **一个简单易用的 Python 消息推送库，目前支持钉钉机器人消息发送。**
 
@@ -205,7 +205,7 @@ funpush/
 
 1. Fork 本项目
 2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+3. 提交更改 (`git commit -m 'feat: 增加消息推送功能'`，提交信息需使用中文，并遵循 `<类型>: <做了什么>` 格式)
 4. 推送到分支 (`git push origin feature/AmazingFeature`)
 5. 开启 Pull Request
 
@@ -249,8 +249,8 @@ funpush/
 [farfarfun](https://github.com/farfarfun) 是一个专注于实用工具库的开源组织，
 涵盖云存储、数据处理、AI、多媒体与开发工具链等方向。
 
-- 组织主页：<https://github.com/farfarfun>
-- PyPI：<https://pypi.org/user/niuliangtao/>
-- 联系：farfarfun@qq.com
+- 🏠 组织主页：<https://github.com/farfarfun>
+- 📦 PyPI：<https://pypi.org/user/niuliangtao/>
+- 📧 联系：farfarfun@qq.com
 
 本项目基于 [MIT](LICENSE) 协议开源。

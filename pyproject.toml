@@ -1,7 +1,7 @@
 [project]
 name = "funpush"
 version = "1.0.6"
-description = "消息推送工具库"
+description = "消息推送工具库，目前支持钉钉机器人消息发送"
 license = "MIT"
 readme = "README.md"
 requires-python = ">=3.10"

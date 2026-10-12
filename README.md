@@ -28,13 +28,22 @@ FunPush 是一个面向即时通讯平台的消息推送库，目前支持钉钉
 pip install funpush
 ```
 
+需要 Python 3.10 或更高版本。
+
 ## 🚀 快速开始
 
 ### 钉钉机器人配置
 
 1. 在钉钉群中添加自定义机器人
 2. 获取 Webhook URL 和密钥（如果启用了加签验证）
-3. 使用以下代码发送消息：
+3. 在终端设置机器人凭据：
+
+```bash
+export DINGTALK_ACCESS_TOKEN="your_access_token_here"
+export DINGTALK_SECRET="your_secret_here"
+```
+
+4. 使用以下代码发送消息：
 
 ```python
 from funpush import DingTalkClient
@@ -42,14 +51,15 @@ from funpush import DingTalkClient
 # 初始化客户端
 client = DingTalkClient()
 
-# 配置凭据（不要把真实凭据提交到代码仓库）
-# export DINGTALK_ACCESS_TOKEN="your_access_token_here"
-# export DINGTALK_SECRET="your_secret_here"
+# 从环境变量读取凭据；不要把真实凭据提交到代码仓库
 client.login()
 
 # 发送文本消息
 client.send_text(content="Hello, World! 这是一条测试消息。", at_all=False)
 ```
+
+`DINGTALK_ACCESS_TOKEN` 或 `DINGTALK_SECRET` 未设置时，`client.login()` 会抛出
+`ValueError`。
 
 ## 📖 详细使用说明
 
@@ -183,6 +193,16 @@ except RequestException:
 ```
 
 ## 🔧 开发指南
+
+安装开发依赖并运行检查：
+
+```bash
+uv sync --group dev
+uv run pytest
+uv run ruff check .
+uv run ruff format --check .
+uv build
+```
 
 ### 项目结构
 

@@ -21,7 +21,7 @@ from funpush.dingtalk.message import (
     msg_text,
 )
 from funpush.dingtalk.model import DingTalkAccess
-from funpush.dingtalk.util import get_sign
+from funpush.dingtalk.util import dingtalk_url_decode, get_sign
 
 
 def test_import_funpush():
@@ -97,6 +97,23 @@ def test_get_sign_returns_timestamp_and_signature():
     assert isinstance(signature, str) and signature
 
 
+@pytest.mark.parametrize(
+    ("pc_slide", "expected"),
+    [
+        (
+            True,
+            "dingtalk://dingtalkclient/page/link?url=https%3A%2F%2Fexample.com%2Fa%3Fq%3Dhello%20world&pc_slide=True",
+        ),
+        (
+            False,
+            "dingtalk://dingtalkclient/page/link?url=https%3A%2F%2Fexample.com%2Fa%3Fq%3Dhello%20world&pc_slide=False",
+        ),
+    ],
+)
+def test_dingtalk_url_decode_encodes_url_and_preserves_pc_slide(pc_slide, expected):
+    assert dingtalk_url_decode("https://example.com/a?q=hello world", pc_slide=pc_slide) == expected
+
+
 def test_dingtalk_access_model():
     access = DingTalkAccess(access_token="tok", secret="sec")
     assert access.access_token == "tok"
@@ -109,6 +126,14 @@ def test_client_login_requires_token_and_secret():
         client.login(access_token="tok")  # 缺 secret
     with pytest.raises(ValueError):
         client.login(secret="sec")  # 缺 access_token
+
+
+def test_client_login_requires_credentials_when_environment_is_empty(monkeypatch):
+    monkeypatch.delenv("DINGTALK_ACCESS_TOKEN", raising=False)
+    monkeypatch.delenv("DINGTALK_SECRET", raising=False)
+
+    with pytest.raises(ValueError):
+        DingTalkClient().login()
 
 
 def test_client_login_with_access_object():
@@ -213,6 +238,20 @@ def test_client_send_dedup_mocked(mock_post):
     # 相同内容第二次发送应被去重拦截，不再调用底层 API
     assert client.send(message) is False
     assert mock_post.call_count == 1
+
+
+def test_client_cache_operations_are_idempotent_and_respect_maximum_size():
+    client = DingTalkClient(max_cache_size=2)
+
+    assert client.get_cache_size() == 0
+    client.clear_message_cache()
+    assert client.get_cache_size() == 0
+
+    client._message_cache.extend(["first", "second", "third"])
+    assert client.get_cache_size() == 2
+
+    client.clear_message_cache()
+    assert client.get_cache_size() == 0
 
 
 @patch("funpush.dingtalk.client.requests.post")

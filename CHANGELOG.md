@@ -8,6 +8,7 @@
 - README 许可证徽章链接修正为默认分支 `master`（原指向不存在的 `main` 分支）。
 - README 底部「关于 farfarfun」区块补齐 🏠/📦/📧 emoji，与 SPEC.md 固定文本一致。
 - README 贡献指南的提交示例改为中文 `<类型>: <做了什么>` 格式。
+- README 的 `## 📋 TODO` 标题改为 `## 📋 路线图`：该章节本就是后续计划，而非未写完的占位符（farfarfun/todo-list#1025）。
 
 ## [1.0.6]
 
